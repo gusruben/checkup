@@ -6,6 +6,7 @@ edition = "2021"
 description = "A simple & sleek utility to detect website changes and build shell pipelines"
 keywords = ["shell", "pipeline", "script"]
 readme = "README.md"
+license = "MIT"
 
 [dependencies]
 clap = { version = "4.5.20", features = ["derive"] }
