@@ -1,7 +1,11 @@
 [package]
 name = "checkup"
 version = "0.1.0"
+authors = [ "Gus Ruben <gusruben@protonmail.com>" ]
 edition = "2021"
+description = "A simple & sleek utility to detect website changes and build shell pipelines"
+keywords = ["shell", "pipeline", "script"]
+readme = "README.md"
 
 [dependencies]
 clap = { version = "4.5.20", features = ["derive"] }
