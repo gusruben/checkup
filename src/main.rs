@@ -1,31 +1,30 @@
 use std::{process::Command, thread::sleep, time};
-use argparse::{ArgumentParser, Store};
+use clap::{command, Parser};
 use shlex::Shlex;
 use tokio;
 
-extern crate argparse;
+
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    url: String,
+
+    command: String,
+
+    #[arg(short, long, default_value_t = 3)]
+    interval: u64,
+}
+
 
 #[tokio::main]
 async fn main() {
-    let mut url = String::new();
-    let mut command = String::new();
-    let mut interval_str = "3".to_string();
 
-    {
-        let mut ap = ArgumentParser::new();
-        ap.set_description("Monitor a URL for page changes");
-        ap.refer(&mut url)
-            .add_argument("url", Store, "URL of the page to monitor");
-        ap.refer(&mut command)
-            .add_argument("command", Store, "Command to run when changes are detected");
-        ap.refer(&mut interval_str)
-            .add_option(&["-i", "--interval"], Store, "Interval (in seconds) between each check");
-
-        ap.parse_args_or_exit();
-    }
+    let args = Args::parse();
+    let url = args.url;
+    let command = args.command;
+    let interval = args.interval;
 
     // processing arguments
-    let interval = interval_str.parse::<u64>().unwrap();
     let stripped_url = strip_protocol(url.clone());
     // split the command into base command & args
     let mut parts = Shlex::new(command.as_str());
